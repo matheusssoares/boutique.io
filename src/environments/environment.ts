@@ -5,6 +5,14 @@
 export const environment = {
   production: false
 };
+export const firebase_config = {
+  apiKey: "AIzaSyB0wGyn8hQfYyyK1n8WyXWdMxxCJti5TbQ",
+  authDomain: "boutique-mode-chic.firebaseapp.com",
+  databaseURL: "https://boutique-mode-chic.firebaseio.com",
+  projectId: "boutique-mode-chic",
+  storageBucket: "boutique-mode-chic.appspot.com",
+  messagingSenderId: "640832967632"
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

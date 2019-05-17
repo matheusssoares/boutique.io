@@ -1,0 +1,23 @@
+.content-wrapper{
+    min-height: 85vh;
+}
+.bg-roxo {
+    background-color: #cd6ffc;
+    color: #FFF;
+}
+.bg-rosa {
+    background-color: #ff89e1;
+    color: #FFF;
+}
+.bg-vermelho {
+    background-color: #d3745d;
+    color: #FFF;
+}
+.bg-verde {
+    background-color: #38e279;
+    color: #FFF;
+}
+.bg-preto {
+    background-color: #5b5060;
+    color: #FFF;
+}

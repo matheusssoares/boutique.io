@@ -1,0 +1,213 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Editar Entrada de Estoque
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Editar Entrada de Estoque</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <div class="box-header">
+
+              <div class="row col-md-12">
+                <p-fieldset legend="Adicionar Pedidos de Compras" [toggleable]="true">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Solicitante</label>
+                      <input type="text" [(ngModel)]="pedidoCompra.solicitante" readonly class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                      <label> Data de Emissão</label>
+                      <input type="text" [(ngModel)]="pedidoCompra.data_emissao" readonly class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                      <label>Atualizar Valores?</label>
+                      <br>
+                      <ui-switch [(ngModel)]="pedidoCompra.atualizar"></ui-switch>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class="form-group col-md-2">
+                          <label>Qtde</label>
+                          <input type="number" min="1" class="form-control" [(ngModel)]="pedidoCompra.qtde">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Produto</label>
+                          <select [(ngModel)]="pedidoCompra.produto" class="form-control"
+                            (change)="onChange($event.target.value)">
+                            <option *ngFor="let item of results" value="{{ item.key }}">{{ item.nome }}</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label>Preço de Custo</label>
+                          <input type="text" class="form-control" currencyMask [(ngModel)]="pedidoCompra.custo"
+                            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button (click)="add(pedidoCompra)" type="button" class="btn btn-success btn-block">Adicionar
+                          Novo</button>
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+
+                <br style="margin-bottom: 16px;">
+                <p-fieldset *ngIf="produtos" legend="Lista de Itens Adicionados" [toggleable]="true">
+                  <p-table #dt [value]="produtos">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th> Nome do Produto </th>
+                        <th style="width: 150px;"> Qtde </th>
+                        <th style="width: 150px;"> Preço de Custo </th>
+                        <th style="width: 150px;"> Subtotal </th>
+                        <th style="width: 125px;">Ações</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-user>
+                      <tr [pSelectableRow]="user">
+                        <td>{{ user.nome }}</td>
+                        <td>{{ user.qtde }}</td>
+                        <td>{{ user.custo | currency:'BRL':true}}</td>
+                        <td>{{ user.qtde * user.custo | currency:'BRL':true }}</td>
+                        <td style="width: 115px;">
+                          <button (click)="delete(user)" class="btn btn-danger">Remover <i
+                              class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                      <tr style="border: 1px solid #c8c8c8;">
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th style="width: 150px; text-align:center; padding: 10px;">TOTAL</th>
+                        <th style="width: 150px; text-align:center; padding: 10px;">{{ total | currency:'BRL':true }}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                      Produtos adicionados {{produtos?.length}}.
+                    </ng-template>
+                  </p-table>
+
+                  <div style="margin-top: 16px" class="row">
+                    <div class="col-md-12">
+                      <div class="col-md-6">
+                        <button style="margin-left: -15px;" (click)="salvar_temp(produtos)" type="button"
+                          class="btn btn-success btn-lg btn-block">SALVAR TEMPORÁRIO</button>
+                      </div>
+                      <div class="col-md-6">
+                        <button style="margin-left: 15px;" (click)="salvar_pedido(produtos)" type="button"
+                          class="btn btn-primary btn-lg btn-block">SALVAR PEDIDO</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </p-fieldset>
+                <!--movimentar estoque-->
+                <p-dialog header="NOVO LANÇAMENTO" [(visible)]="display" [style]="{width: '500px'}">
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="col-md-6">
+                        <label>Tipo de Lançamento</label>
+                        <select [(ngModel)]="mov.tipo" class="form-control" disabled>
+                          <option [ngValue]="2">Pagamento</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label>Classificação</label>
+                        <select [(ngModel)]="mov.classificacao" class="form-control" disabled>
+                          <option value="Mercadoria para Revenda">Mercadoria para Revenda</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 16px;" class="row">
+                    <div class="col-md-6">
+                      <label>Vencimento</label>
+                      <p-calendar [(ngModel)]="mov.vencimento" [style]="{'width':'106%'}" [inputStyle]="{'width':'79%'}"
+                        [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="2010:2030"
+                        dateFormat="dd/mm/yy" [locale]="en">
+                      </p-calendar>
+                    </div>
+                    <div class="col-md-6">
+                      <label>Conta Corrente</label>
+                      <select [(ngModel)]="mov.conta_corrente" class="form-control" disabled>
+                        <option value="Conta Padrão">Conta Padrão</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="margin-top: 16px" class="row">
+                    <div class="col-md-6">
+                      <label>Valor Pagamento</label>
+                      <input disabled [(ngModel)]="mov.valor" type="text" class="form-control" currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                    </div>
+
+                    <div class="col-md-6">
+                      <label>Tipo de Pagamento: </label>
+                      <select [(ngModel)]="mov.forma_de_pg" class="form-control">
+                        <option value="BOLETO">BOLETO</option>
+                        <option value="CARTÃO DE CRÉDITO">CARTÃO DE CRÉDITO</option>
+                        <option value="CARTÃO DE DÉBITO">CARTÃO DE DÉBITO</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="DEPÓSITO">DEPÓSITO</option>
+                        <option value="DINHEIRO">DINHEIRO</option>
+                        <option value="PAGAMENTO DIGITAL">PAGAMENTO DIGITAL</option>
+                        <option value="TRANSFERÊNCIA BANCÁRIA">TRANSFERÊNCIA BANCÁRIA</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="margin-top: 16px" class="row">
+                    <div class="col-md-12">
+                      <label>Observações</label>
+                      <textarea [(ngModel)]="mov.obs" class="form-control" rows="5"
+                        placeholder="Observações..."></textarea>
+                    </div>
+                  </div>
+                  <div style="margin-top: 16px;" class="row">
+                    <div class="col-md-12">
+                      <button class="btn btn-success btn-block btn-lg" (click)="movimentar(mov)">Movimentar
+                        Estoque</button>
+                    </div>
+                  </div>
+
+                </p-dialog>
+                <!--fim movimentar estoque-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

@@ -1,0 +1,10 @@
+.logo-admin img {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-box-msg {
+    padding-top: 14px;
+}

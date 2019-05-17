@@ -1,0 +1,81 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Contas Pagas
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Contas Pagas</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Info boxes -->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <p-fieldset legend="Contas Pagas" [toggleable]="true" [collapsed]="false">
+              <p-table #dt [columns]="cols" [value]="listUsers" [paginator]="true" [rows]="10"
+                [resizableColumns]="true">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="45" placeholder="  Pesquisar..."
+                      (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" [style.width]="col.width" ttResizableColumn>
+                      {{col.header}}
+                    </th>
+                    <th style="width: 115px;">Ações</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                  <tr [pSelectableRow]="user">
+
+                    <td>{{ user.vencimento.toDate() | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ user.beneficiario }}</td>
+                    <td>{{ user.classificacao }}</td>
+                    <td>{{ user.total | currency:'BRL':true }}</td>
+                    <td class="text-wrap">{{ user.data_pagamento.toDate() | date:'dd/MM/yyyy'}}</td>
+                    <td style="width: 115px;">
+                      <!-- <a routerLink="admin/financeiro/contas-pagas/recibo/{{user.key}}" target="_blank" class="btn btn-success"><i class="fa fa-print"></i></a>
+                      &nbsp; -->
+                      <button (click)="delete(user)" class="btn btn-danger"><i class="fa fa-trash"></i> Excluir</button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  Contas cadastradas {{listUsers?.length}}.
+                </ng-template>
+              </p-table>
+            </p-fieldset>
+            <p-confirmDialog #cd header="Aviso!" icon="pi pi-exclamation-triangle">
+              <p-footer>
+                <button type="button" pButton icon="pi pi-check" label="Confirmar" (click)="cd.accept()"></button>
+                <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                  (click)="cd.reject()"></button>
+              </p-footer>
+            </p-confirmDialog>
+          </div>
+
+        </div>
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+</div>
+<!-- ./wrapper -->

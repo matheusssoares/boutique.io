@@ -1,0 +1,270 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Nova Conta a Pagar
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Nova Conta a Pagar</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Info boxes -->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <div class="row">
+              <div class="col-md-12">
+                <p-fieldset legend="Contas a Pagar" [toggleable]="true" [collapsed]="false">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>CÓDIGO DE BARRAS</label>
+                      <input type="number" [(ngModel)]="contas.codebar" class="form-control">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>CLASSIFICAÇÃO</label>
+                        <select class="form-control" [(ngModel)]="contas.classificacao">
+                          <option value="Abatimentos">Abatimentos</option>
+                          <option value="Água">Água</option>
+                          <option value="Ajuste de Saldo">Ajuste de Saldo</option>
+                          <option value="Aluguel">Aluguel</option>
+                          <option value="Aluguel de Equipamentos">Aluguel de Equipamentos</option>
+                          <option value="Benefícios Salariais">Benefícios Salariais</option>
+                          <option value="Brindes">Brindes</option>
+                          <option value="Combustíveis e Pedágios">Combustíveis e Pedágios</option>
+                          <option value="Comissões de Vendas">Comissões de Vendas</option>
+                          <option value="Condomínio">Condomínio</option>
+                          <option value="Devoluções">Devoluções</option>
+                          <option value="Embalagens">Embalagens</option>
+                          <option value="Encargos Salariais">Encargos Salariais</option>
+                          <option value="Eventos">Eventos</option>
+                          <option value="Fretes">Fretes</option>
+                          <option value="Impostos">Impostos</option>
+                          <option value="Internet">Internet</option>
+                          <option value="IPTU">IPTU</option>
+                          <option value="Limpezas">Limpezas</option>
+                          <option value="Manutenção">Manutenção</option>
+                          <option value="Material de Escritório">Material de Escritório</option>
+                          <option value="Mercadoria para Revenda">Mercadoria para Revenda</option>
+                          <option value="Outras Despesas">Outras Despesas</option>
+                          <option value="Propagandas">Propagandas</option>
+                          <option value="Salários">Salários</option>
+                          <option value="Tarifas Bancárias">Tarifas Bancárias</option>
+                          <option value="Taxa de Cartão">Taxa de Cartão</option>
+                          <option value="Telefone">Telefone</option>
+                          <option value="Transferências">Transferências</option>
+                          <option value="TV a Cabo">TV a Cabo</option>
+                          <option value="Viagens e Hospedagem">Viagens e Hospedagem</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>BENEFICIÁRIO</label>
+                        <input type="text" class="form-control" [(ngModel)]="contas.beneficiario">
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="row">
+                    <div class="col-md-8">
+                      <label>OBSERVAÇÕES</label>
+                      <textarea [(ngModel)]="contas.observacao" class="form-control" rows="5"
+                        placeholder="Observações..."></textarea>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div style="float: right" class="row">
+                        <div class="col-md-12">
+                          <label>DATA DE VENCIMENTO</label>
+                          <p-calendar [(ngModel)]="contas.vencimento" [style]="{'width':'78%'}"
+                            [inputStyle]="{'width':'78%'}" [showIcon]="true" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="2010:2030" dateFormat="dd/mm/yy" [locale]="en">
+                          </p-calendar>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div style="margin-top: 19px" class="col-md-12">
+                          <label>VALOR TOTAL</label>
+                          <input [(ngModel)]="contas.total" type="text" class="form-control" currencyMask
+                            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 16px;" class="row">
+                    <div class="col-md-4">
+                      <label>FATURA RECORRENTE?</label>
+                      <br>
+                      <ui-switch [(ngModel)]="contas.recorrente"></ui-switch>
+                    </div>
+
+                    <div *ngIf="contas.recorrente" class="col-md-5">
+                      <label>NÚMERO DE PARCELAS</label>
+                      <select (change)="select($event.target.value)" [(ngModel)]="contas.num_parcelas" [disabled]="isGerada" class="form-control">
+                        <option [ngValue]="2">2 Vezes</option>
+                        <option [ngValue]="3">3 Vezes</option>
+                        <option [ngValue]="4">4 Vezes</option>
+                        <option [ngValue]="5">5 Vezes</option>
+                        <option [ngValue]="6">6 Vezes</option>
+                        <option [ngValue]="7">7 Vezes</option>
+                        <option [ngValue]="8">8 Vezes</option>
+                        <option [ngValue]="9">9 Vezes</option>
+                        <option [ngValue]="10">10 Vezes</option>
+                        <option [ngValue]="11">11 Vezes</option>
+                        <option [ngValue]="12">12 Vezes</option>
+                      </select>
+                    </div>
+                    <div *ngIf="contas.recorrente" class="col-md-3">
+                      <label>&nbsp;</label>
+                      <button *ngIf="contas.num_parcelas != 1" (click)="gerar_parcelas(contas)" [disabled]="isGerada"
+                        [ngClass]="{ 'disabled': isGerada, 'esconder': isGerada }"
+                        class="btn btn-success btn-block">Gerar
+                        Parcelas</button>
+                        <button *ngIf="contas.num_parcelas == 1" disabled class="btn btn-success btn-block">Gerar Parcelas</button>
+                    </div>
+
+                  </div>
+
+                  <div style="margin-top: 16px" *ngIf="results.length" class="row">
+                    <div class="col-md-12">
+                      <hr>
+                      <h3> PARCELAS ADICIONADAS: <b class="text-green">{{ results.length }}</b></h3>
+                      <hr>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div *ngFor="let item of results">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div style="margin-top: 16px;" class="col-md-6">
+                                <label>OBSERVAÇÃO</label>
+                                <input type="text" [(ngModel)]="item.obs" class="form-control" placeholder="Obs">
+                              </div>
+
+                              <div style="margin-top: 16px;" class="col-md-2">
+                                <label>DATA VENCIMENTO</label>
+                                <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2010:2030"
+                                  dateFormat="dd/mm/yy" [locale]="en" [(ngModel)]="item.data_vencimento"></p-calendar>
+                              </div>
+
+                              <div style="margin-top: 16px;" class="col-md-2">
+                                <label>VALOR TOTAL</label>
+                                <input type="text" [(ngModel)]="item.total" class="form-control" currencyMask
+                                  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                              </div>
+
+                              <div style="margin-top: 16px;" class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button (click)="remove(item)" class="btn btn-danger btn-block">
+                                  <i class="fa fa-trash"></i> Excluir
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div style="margin-top: 16px" class="row">
+                    <div class="col-md-12">
+                      <button *ngIf="salvar" type="button" (click)="debugg(contas)" class="btn btn-primary btn-block btn-lg">SALVAR
+                        CONTA</button>
+                      <button *ngIf="!salvar" type="button" disabled class="btn btn-primary btn-block btn-lg">SALVAR
+                        CONTA</button>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div>
+              <p-confirmDialog #cd header="Aviso!">
+                  <p-footer>
+                    <button type="button" pButton icon="pi pi-check" label="Confirmar" (click)="cd.accept()"></button>
+                    <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                      (click)="cd.reject()"></button>
+                  </p-footer>
+                </p-confirmDialog>
+              <!-- <div class="col-md-4">
+                <p-fieldset legend="Efetuar Pagamento" [toggleable]="true" [collapsed]="false">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>DATA DE PAGAMENTO</label>
+                      <p-calendar [(ngModel)]="contas.data_pagamento" [style]="{'width':'79%'}"
+                        [inputStyle]="{'width':'79%'}" styleClass="dateTimeField" [showIcon]="true"
+                        [monthNavigator]="true" [yearNavigator]="true" yearRange="2010:2030" dateFormat="dd/mm/yy"
+                        [locale]="en"></p-calendar>
+                    </div>
+
+                    <div style="margin-top: 16px" class="col-md-12">
+                      <label>CONTA CORRENTE</label>
+                      <select class="form-control" disabled>
+                        <option value="Conta Padrão">Conta Padrão</option>
+                      </select>
+                    </div>
+
+                    <div style="margin-top: 16px" class="col-md-12">
+                      <label>JUROS</label>
+                      <input type="text" [(ngModel)]="contas.juros" class="form-control" currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                    </div>
+
+                    <div style="margin-top: 16px" class="col-md-12">
+                      <label>DESCONTOS</label>
+                      <input type="text" [(ngModel)]="contas.descontos" class="form-control" currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                    </div>
+
+                    <div style="margin-top: 16px" class="col-md-12">
+                      <label>VALOR PAGO</label>
+                      <input type="text" [(ngModel)]="contas.total" class="form-control" currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                    </div>
+
+                    <div style="margin-top: 16px" class="col-md-12">
+                      <label>TIPO DE PAGAMENTO: </label>
+                      <select class="form-control">
+                        <option value="BOLETO">BOLETO</option>
+                        <option value="CARTÃO DE CRÉDITO">CARTÃO DE CRÉDITO</option>
+                        <option value="CARTÃO DE DÉBITO">CARTÃO DE DÉBITO</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="DEPÓSITO">DEPÓSITO</option>
+                        <option value="DINHEIRO">DINHEIRO</option>
+                        <option value="PAGAMENTO DIGITAL">PAGAMENTO DIGITAL</option>
+                        <option value="TRANSFERÊNCIA BANCÁRIA">TRANSFERÊNCIA BANCÁRIA</option>                        
+                      </select>
+                    </div>
+
+                    <div class="col-md-12">
+                      <label>&nbsp;</label>
+                      <button class="btn btn-success btn-block">Incluir Pagamento</button>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div> -->
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

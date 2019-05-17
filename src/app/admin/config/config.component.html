@@ -1,0 +1,131 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Configurações
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Configurações</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <p-fieldset legend="Configurações da Loja" [toggleable]="true">
+              <div class="row">
+                <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+                <div class="row">
+                  <div class="col-md-2">
+                    <img class="img_empty" [src]="config.logotipo_path">
+                    <div *ngIf="uploadPercent" class="progress loading">
+                      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                        attr.aria-valuenow="{{uploadPercent | async}}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{width:(uploadPercent | async) +'%'}">
+                        {{uploadPercent | async}}%</div>
+                    </div>
+                    <button class="btn btn-info btn_foto" (click)="fileInput.click()">Logotipo</button>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="row">
+                      <div style="margin-left: -16px;" class="col-md-6 form-group">
+                        <label>Razão Social</label>
+                        <input type="text" [(ngModel)]="config.razao_social" class="form-control">
+                      </div>
+                      <div class="col-md-6 form-group">
+                        <label>Nome Fantasia</label>
+                        <input type="text" [(ngModel)]="config.nome_fantasia" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div style="margin-left: -16px;" class="col-md-4 form-group">
+                        <label>Email de Contato</label>
+                        <input type="text" [(ngModel)]="config.email" class="form-control">
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label>Contato Principal</label>
+                        <input type="text" [(ngModel)]="config.contato_principal" class="form-control">
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label>Contato Secundário</label>
+                        <input type="text" [(ngModel)]="config.contato_secundario" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div style="margin-left: -16px;" class="col-md-2 form-group">
+                        <label>Limite de Débito</label>
+                        <input class="form-control" currencyMask [(ngModel)]="config.debito_padrao" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
+                      </div>
+                      <div class="col-md-2 form-group">
+                        <label>% Desc. À Vista</label>
+                        <input type="text" [(ngModel)]="config.desc_avista" class="form-control">
+                      </div>
+                      <div class="col-md-2 form-group">
+                        <label>% Acrés. a Prazo</label>
+                        <input type="text" [(ngModel)]="config.acres_prazo" class="form-control">
+                      </div>
+                      <div class="col-md-2 form-group">
+                        <label>Markup</label>
+                        <input type="text" [(ngModel)]="config.markup" class="form-control">
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label> Nome do(a) Gerente </label>
+                        <input type="text" [(ngModel)]="config.responsavel" class="form-control">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div style="margin-left: -16px;" class="col-md-2 form-group">
+                        <label>Cidade</label>
+                        <input type="text" [(ngModel)]="config.cidade" class="form-control">
+                      </div>
+                      <div class="col-md-2 form-group">
+                        <label>CEP</label>
+                        <input type="text" [(ngModel)]="config.cep" class="form-control">
+                      </div>
+                      <div class="col-md-1 form-group">
+                        <label>Estado</label>
+                        <input type="text" [(ngModel)]="config.estado" class="form-control">
+                      </div>
+                      <div class="col-md-2 form-group">
+                        <label>Bairro</label>
+                        <input type="text" [(ngModel)]="config.bairro" class="form-control">
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label>Endereço</label>
+                        <input type="text" [(ngModel)]="config.rua" class="form-control">
+                      </div>
+                      <div class="col-md-1 form-group">
+                        <label>Núm.</label>
+                        <input type="text" [(ngModel)]="config.num" class="form-control">
+                      </div>
+                    </div>
+                    <button (click)="submited(config)" style="margin-left: -16px;"
+                      class="btn btn-primary btn-lg btn-block">Atualizar
+                      Configurações</button>
+                  </div>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

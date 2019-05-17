@@ -1,0 +1,167 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Novo Produto
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Novo Produto</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <div class="row">
+              <div class="form-group col-md-3">
+                <img style="height: 100px; width: 245px;" src="../../../assets/codebar.png">
+                <input readonly style="margin-left: 5px; margin-top: 5px;" type="text" class="form-control"
+                  [(ngModel)]="produto.barcode">
+                <button style="margin-left: 5px; margin-top: 5px;" type="button" class="btn btn-primary btn-block"
+                  (click)="buscar()">Gerar Código de Barras</button>
+              </div>
+              <div *ngIf="achou" class="col-md-9">
+                <h2 class="text-center">Cadastro de Produtos</h2>
+                <p class="text-center">Clique no botão para gerar o código de barras e dar prosseguimento ao cadastro do
+                  produto :)
+                </p>
+              </div>
+              <div *ngIf="!achou" class="col-md-9">
+                <br>
+                <div class="row">
+                  <div style="margin-left: -10px;" class="form-group col-md-6">
+                    <label>Nome do Produto</label>
+                    <input type="text" class="form-control" [(ngModel)]="produto.nome">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Categoria &nbsp;<b (click)="add_cat()" style="cursor: pointer"><i
+                          class="fa fa-plus"></i></b></label>
+                    <select class="form-control" [(ngModel)]="produto.categoria">
+                      <option *ngFor="let item of Itenscategorias" value="{{ item.nome }}">{{ item.nome }}</option>
+                    </select>
+                    <p-dialog header="Informe o nome da Categoria" [(visible)]="display_cat">
+                      <input class="form-control" [(ngModel)]="categorias.nome" />
+                      <p-footer>
+                        <button type="button" pButton icon="pi pi-check" label="Confirmar"
+                          (click)="aceitar_cat(categorias)"></button>
+                        <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                          (click)="reject_cat()"></button>
+                      </p-footer>
+                    </p-dialog>
+                  </div>
+                </div>
+                <div class="row">
+                  <div style="margin-left: -10px;" class="form-group col-md-4">
+                    <label>Departamento &nbsp;<b (click)="add_dep()" style="cursor: pointer"><i
+                          class="fa fa-plus"></i></b></label>
+                    <select class="form-control" [(ngModel)]="produto.departamento">
+                      <option *ngFor="let item2 of Itensdepartamentos" value="{{ item2.nome }}">{{ item2.nome }}
+                      </option>
+                    </select>
+                    <p-dialog header="Informe o nome do Departamento" [(visible)]="display_dep">
+                      <input class="form-control" [(ngModel)]="departamentos.nome" />
+                      <p-footer>
+                        <button type="button" pButton icon="pi pi-check" label="Confirmar"
+                          (click)="aceitar_dep(departamentos)"></button>
+                        <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                          (click)="reject_dep()"></button>
+                      </p-footer>
+                    </p-dialog>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Fornecedor</label>
+                    <select class="form-control" [(ngModel)]="produto.fornecedor">
+                      <option *ngFor="let item3 of Itensfornecedor" value="{{ item3.nome }}">{{ item3.nome }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Modelo</label>
+                    <input type="text" class="form-control" [(ngModel)]="produto.modelo">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div style="margin-left: -10px;" class="col-md-4">
+                    <div class="row">
+                      <div class="form-group col-md-10">
+                        <label>Preço de Custo</label>
+                        <input type="text" class="form-control" currencyMask [(ngModel)]="produto.custo"
+                          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                      </div>
+                      <div class="col-md-2">
+                        <button (click)="gerarPrecos(produto)" style="margin-top: 25px; margin-left: -32px;"
+                          class="btn btn-primary"><i class="fa fa-calculator"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label>Preço a Vista</label>
+                        <input type="text" class="form-control" currencyMask [(ngModel)]="produto.vista"
+                          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label>Preço a Prazo</label>
+                        <input type="text" class="form-control" currencyMask [(ngModel)]="produto.prazo"
+                          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label>Qtde</label>
+                    <input type="number" min="1" class="form-control" [(ngModel)]="produto.qtde">
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label>Qtde Min.</label>
+                    <input type="number" min="1" class="form-control" [(ngModel)]="produto.qtde_min">
+                  </div>
+                </div>
+                <div class="row">
+                  <div style="margin-left: -10px;" class="form-group col-md-12">
+                    <label>Adicionar Foto</label>
+                    <p-fileUpload chooseLabel="Pesquisar Imagem" cancelLabel="Cancelar" [showUploadButton]="false"
+                    name="myfile[]" customUpload="true"  accept="image/*" maxFileSize="1000000"
+                      (uploadHandler)="myUploader($event)" (onSelect)="onSelect($event)">
+                      <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                          <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                        </ul>
+                      </ng-template>
+                    </p-fileUpload>
+                  </div>
+                </div>
+                <div class="row">
+                  <button style="width: 96.3%; margin-left: 5px;" (click)="submited(produto)" class="btn btn-primary btn-lg btn-block">Cadastrar
+                    Produto</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

@@ -1,0 +1,18 @@
+.content-wrapper{
+    min-height: 250vh;
+}
+.barcode {
+    width: 100%;
+    height: 70px;
+}
+.esconder{
+    display: none;
+}
+.dateTimeField input {
+	vertical-align: middle;
+	margin-right: 1px;
+}
+
+.dateTimeField img {
+	vertical-align: middle;
+}

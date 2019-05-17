@@ -1,0 +1,20 @@
+export interface Produtos {
+    nome: string,
+    barcode?: any,
+    categoria: string,
+    departamento?: string,
+    fornecedor?: string,
+    modelo?: string,
+    qtde?: number,
+    qtde_atual?: number,
+    qtde_min?: number,
+    custo?: number,
+    vista?: number,
+    prazo?: number,
+    foto?: string,
+    data_cadastro?: string,
+    data_update?: string,
+    movimento?: number,
+    status: boolean,
+    key?: string
+}

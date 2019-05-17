@@ -1,0 +1,28 @@
+.content-wrapper{
+    min-height: 100vh;
+}
+.foto_user{
+    margin-top: 20px;
+    margin-left: 14px;
+}
+.loading{
+    width: 130px;
+    margin-left: 12px;
+    margin-top: 3px;
+    margin-bottom: -2px;
+}
+.img_empty{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 130px;
+    height: 130px;
+    border: 2px solid #999;
+}
+.btn_foto{
+    width: 130px;
+    margin-top: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

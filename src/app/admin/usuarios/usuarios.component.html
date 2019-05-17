@@ -1,0 +1,130 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Usuários
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Usuários</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <p-fieldset legend="Adicionar Usuários" [toggleable]="true">
+              <div class="row">
+                <form [formGroup]="form_valid" (ngSubmit)="onSubmit()">
+                  <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img class="img_empty" [src]="(fotoperfil | async) || '../../../assets/img/user.png'">
+                      <div *ngIf="uploadPercent" class="progress loading">
+                        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                          attr.aria-valuenow="{{uploadPercent | async}}" aria-valuemin="0" aria-valuemax="100"
+                          [ngStyle]="{width:(uploadPercent | async) +'%'}">
+                          {{uploadPercent | async}}%</div>
+                      </div>
+                      <button class="btn btn-info btn_foto" (click)="fileInput.click()">Adicionar Foto</button>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div style="margin-left: -16px;" class="col-md-6 form-group">
+                          <label>Nome Completo</label>
+                          <input type="text" class="form-control" formControlName="name">
+                        </div>
+                        <div class="col-md-6 form-group">
+                          <label>Email de Acesso</label>
+                          <input type="text" class="form-control" formControlName="email">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div style="margin-left: -16px;" class="col-md-4 form-group">
+                          <label>Senha de Acesso</label>
+                          <input type="password" class="form-control" formControlName="pass">
+                        </div>
+                        <div class="col-md-4 form-group">
+                          <label>Confirmar Senha</label>
+                          <input type="password" class="form-control" formControlName="confirm_pass">
+                        </div>
+                        <div class="col-md-4 form-group">
+                          <label>Perfil</label>
+                          <select class="form-control" formControlName="profile">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Funcionário">Funcionário</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button style="margin-left: -16px;" type="submit" class="btn btn-primary btn-lg btn-block"
+                        [disabled]="form_valid.invalid">Cadastrar
+                        Usuário</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </p-fieldset>
+            <br>
+            <p-fieldset legend="Lista de Usuários" [toggleable]="true">
+              <p-table #dt [columns]="cols" [value]="listUsers" [paginator]="true" [rows]="10">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="45" placeholder="  Pesquisar..."
+                      (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns">
+                      {{col.header}}
+                    </th>
+                    <th style="width: 115px;">Ações</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                  <tr [pSelectableRow]="user">
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.profile }}</td>
+                    <td style="width: 115px;">
+                      <button (click)="update(user)" class="btn btn-success"><i class="fa fa-edit"></i></button>
+                      &nbsp;
+                      <button (click)="delete(user)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  Usuários cadastrados {{listUsers?.length}}.
+                </ng-template>
+              </p-table>
+            </p-fieldset>
+            <p-confirmDialog #cd header="Exclusão de Usuário" icon="pi pi-exclamation-triangle">
+              <p-footer>
+                <button type="button" pButton icon="pi pi-check" label="Confirmar" (click)="cd.accept()"></button>
+                <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                  (click)="cd.reject()"></button>
+              </p-footer>
+            </p-confirmDialog>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

@@ -23,9 +23,27 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/bower_components/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/bower_components/font-awesome/css/font-awesome.min.css",
+              "src/assets/bower_components/Ionicons/css/ionicons.min.css",
+              "src/assets/bower_components/jvectormap/jquery-jvectormap.css",
+              "src/assets/dist/css/AdminLTE.min.css",
+              "src/assets/dist/css/skins/_all-skins.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/ngx-ui-switch/ui-switch.component.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/bower_components/jquery/dist/jquery.min.js",
+              "src/assets/bower_components/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/bower_components/fastclick/lib/fastclick.js",
+              "src/assets/dist/js/adminlte.min.js",
+              "src/assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js",
+              "src/assets/bower_components/Chart.js/Chart.js",
+              "src/assets/dist/js/demo.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

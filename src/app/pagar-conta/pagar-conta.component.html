@@ -1,0 +1,292 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Pagar Conta
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Pagar Conta</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Info boxes -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="box box-primary">
+              <div class="row">
+                <div class="col-md-9">
+                  <!-- SE EXISTIR RESTO, MARCAR OS INPUTS COMO DISABLED-->
+                  <!-- <p-fieldset *ngIf="contas.resto" legend="Detalhes da Conta" [toggleable]="true" [collapsed]="false">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label>CÓDIGO DE BARRAS</label>
+                        <input readonly type="number" [(ngModel)]="contas.codebar" class="form-control">
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>CLASSIFICAÇÃO</label>
+                        <select readonly class="form-control" [(ngModel)]="contas.classificacao">
+                          <option value="Abatimentos">Abatimentos</option>
+                          <option value="Água">Água</option>
+                          <option value="Ajuste de Saldo">Ajuste de Saldo</option>
+                          <option value="Aluguel">Aluguel</option>
+                          <option value="Aluguel de Equipamentos">Aluguel de Equipamentos</option>
+                          <option value="Benefícios Salariais">Benefícios Salariais</option>
+                          <option value="Brindes">Brindes</option>
+                          <option value="Combustíveis e Pedágios">Combustíveis e Pedágios</option>
+                          <option value="Comissões de Vendas">Comissões de Vendas</option>
+                          <option value="Condomínio">Condomínio</option>
+                          <option value="Devoluções">Devoluções</option>
+                          <option value="Embalagens">Embalagens</option>
+                          <option value="Encargos Salariais">Encargos Salariais</option>
+                          <option value="Eventos">Eventos</option>
+                          <option value="Fretes">Fretes</option>
+                          <option value="Impostos">Impostos</option>
+                          <option value="Internet">Internet</option>
+                          <option value="IPTU">IPTU</option>
+                          <option value="Limpezas">Limpezas</option>
+                          <option value="Manutenção">Manutenção</option>
+                          <option value="Material de Escritório">Material de Escritório</option>
+                          <option value="Mercadoria para Revenda">Mercadoria para Revenda</option>
+                          <option value="Outras Despesas">Outras Despesas</option>
+                          <option value="Propagandas">Propagandas</option>
+                          <option value="Salários">Salários</option>
+                          <option value="Tarifas Bancárias">Tarifas Bancárias</option>
+                          <option value="Taxa de Cartão">Taxa de Cartão</option>
+                          <option value="Telefone">Telefone</option>
+                          <option value="Transferências">Transferências</option>
+                          <option value="TV a Cabo">TV a Cabo</option>
+                          <option value="Viagens e Hospedagem">Viagens e Hospedagem</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>BENEFICIÁRIO</label>
+                        <input readonly type="text" class="form-control" [(ngModel)]="contas.beneficiario">
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 16px;" class="row">
+                      <div class="col-md-8">
+                        <label>OBSERVAÇÕES</label>
+                        <textarea readonly [(ngModel)]="contas.observacao" class="form-control" rows="5"
+                          placeholder="Observações..."></textarea>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>DATA DE VENCIMENTO</label>
+                            <input readonly type="text" class="form-control" [(ngModel)]="contas.vencimento">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div style="margin-top: 19px" class="col-md-12">
+                            <label>VALOR TOTAL</label>
+                            <input readonly [(ngModel)]="contas.total" type="text" class="form-control" currencyMask
+                              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button disabled style="margin-top: 16px" type="button"
+                      class="btn btn-primary btn-block btn-lg">ATUALIZAR
+                      CONTA</button>
+                      <hr style="margin-top: 16px;">
+                      <h3>HISTÓRICO DE PAGAMENTOS</h3>
+                  </p-fieldset> -->
+
+                  <!-- SE NÃO EXISTIR RESTO, MARCAR OS INPUTS COMO HABILITADOS-->
+                  <p-fieldset *ngIf="!contas.resto" legend="Detalhes da Conta" [toggleable]="true" [collapsed]="false">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label>CÓDIGO DE BARRAS</label>
+                        <input type="number" [(ngModel)]="contas.codebar" class="form-control">
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>CLASSIFICAÇÃO</label>
+                        <select class="form-control" [(ngModel)]="contas.classificacao">
+                          <option value="Abatimentos">Abatimentos</option>
+                          <option value="Água">Água</option>
+                          <option value="Ajuste de Saldo">Ajuste de Saldo</option>
+                          <option value="Aluguel">Aluguel</option>
+                          <option value="Aluguel de Equipamentos">Aluguel de Equipamentos</option>
+                          <option value="Benefícios Salariais">Benefícios Salariais</option>
+                          <option value="Brindes">Brindes</option>
+                          <option value="Combustíveis e Pedágios">Combustíveis e Pedágios</option>
+                          <option value="Comissões de Vendas">Comissões de Vendas</option>
+                          <option value="Condomínio">Condomínio</option>
+                          <option value="Devoluções">Devoluções</option>
+                          <option value="Embalagens">Embalagens</option>
+                          <option value="Encargos Salariais">Encargos Salariais</option>
+                          <option value="Eventos">Eventos</option>
+                          <option value="Fretes">Fretes</option>
+                          <option value="Impostos">Impostos</option>
+                          <option value="Internet">Internet</option>
+                          <option value="IPTU">IPTU</option>
+                          <option value="Limpezas">Limpezas</option>
+                          <option value="Manutenção">Manutenção</option>
+                          <option value="Material de Escritório">Material de Escritório</option>
+                          <option value="Mercadoria para Revenda">Mercadoria para Revenda</option>
+                          <option value="Outras Despesas">Outras Despesas</option>
+                          <option value="Propagandas">Propagandas</option>
+                          <option value="Salários">Salários</option>
+                          <option value="Tarifas Bancárias">Tarifas Bancárias</option>
+                          <option value="Taxa de Cartão">Taxa de Cartão</option>
+                          <option value="Telefone">Telefone</option>
+                          <option value="Transferências">Transferências</option>
+                          <option value="TV a Cabo">TV a Cabo</option>
+                          <option value="Viagens e Hospedagem">Viagens e Hospedagem</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-4">
+                        <label>BENEFICIÁRIO</label>
+                        <input type="text" class="form-control" [(ngModel)]="contas.beneficiario">
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 16px;" class="row">
+                      <div class="col-md-8">
+                        <label>OBSERVAÇÕES</label>
+                        <textarea [(ngModel)]="contas.observacao" class="form-control" rows="5"
+                          placeholder="Observações..."></textarea>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div style="float: right" class="row">
+                          <div class="col-md-12">
+                            <label>DATA DE VENCIMENTO</label>
+                            <p-calendar [(ngModel)]="contas.vencimento" [style]="{'width':'109%'}"
+                              [inputStyle]="{'width':'78%'}" [showIcon]="true" [monthNavigator]="true"
+                              [yearNavigator]="true" yearRange="2010:2030" dateFormat="dd/mm/yy" [locale]="en">
+                            </p-calendar>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div style="margin-top: 19px" class="col-md-12">
+                            <label>VALOR TOTAL</label>
+                            <input [(ngModel)]="contas.total" type="text" class="form-control" currencyMask
+                              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button style="margin-top: 16px" (click)="atualizar(contas)" type="button"
+                      class="btn btn-primary btn-block btn-lg">ATUALIZAR
+                      CONTA</button>
+                    <!--HISTÓRICO DE PAGAMENTOS-->
+                    <div *ngIf="hist.length" class="hist">
+                      <hr style="margin-top: 16px;">
+                      <h3>HISTÓRICO DE PAGAMENTOS</h3>
+                      <p-table #dt [columns]="cols" [value]="hist">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th>VENCIMENTO</th>
+                            <th>BENEFICIÁRIO</th>
+                            <th>CLASSIFICAÇÃO</th>
+                            <th>VALOR TOTAL</th>
+                            <th>PAGAMENTO EM</th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-user>
+                          <tr [pSelectableRow]="user">
+
+                            <td>{{ user.vencimento.toDate() | date:'dd/MM/yyyy' }}</td>
+                            <td>{{ user.beneficiario }}</td>
+                            <td>{{ user.classificacao }}</td>
+                            <td>{{ user.total | currency:'BRL':true }}</td>
+                            <td>{{ user.data_pagamento.toDate() | date:'dd/MM/yyyy' }}</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <!--FIM HISTÓRICO DE PAGAMENTOS-->
+                  </p-fieldset>
+                </div>
+
+                <div class="col-md-3">
+                  <p-fieldset legend="Pagar Conta" [toggleable]="true" [collapsed]="false">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>DATA DE PAGAMENTO</label>
+                        <p-calendar [(ngModel)]="contas.data_pagamento" [style]="{'width':'106%'}"
+                          [inputStyle]="{'width':'79%'}" styleClass="dateTimeField" [showIcon]="true"
+                          [monthNavigator]="true" [yearNavigator]="true" yearRange="2010:2030" dateFormat="dd/mm/yy"
+                          [locale]="en"></p-calendar>
+                      </div>
+
+                      <div style="margin-top: 16px" class="col-md-12">
+                        <label>CONTA CORRENTE</label>
+                        <select [(ngModel)]="contas.conta_corrente" class="form-control" disabled>
+                          <option value="Conta Padrão">Conta Padrão</option>
+                        </select>
+                      </div>
+
+                      <div style="margin-top: 16px" class="col-md-12">
+                        <label>VALOR PAGO</label>
+                        <input type="text" [(ngModel)]="contas.total_pago" class="form-control" currencyMask
+                          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                      </div>
+
+                      <div style="margin-top: 16px" class="col-md-12">
+                        <label>TIPO DE PAGAMENTO: </label>
+                        <select [(ngModel)]="contas.forma_de_pagamento" class="form-control">
+                          <option value="BOLETO">BOLETO</option>
+                          <option value="CARTÃO DE CRÉDITO">CARTÃO DE CRÉDITO</option>
+                          <option value="CARTÃO DE DÉBITO">CARTÃO DE DÉBITO</option>
+                          <option value="CHEQUE">CHEQUE</option>
+                          <option value="DEPÓSITO">DEPÓSITO</option>
+                          <option value="DINHEIRO">DINHEIRO</option>
+                          <option value="PAGAMENTO DIGITAL">PAGAMENTO DIGITAL</option>
+                          <option value="TRANSFERÊNCIA BANCÁRIA">TRANSFERÊNCIA BANCÁRIA</option>
+                        </select>
+                      </div>
+
+                      <div class="col-md-12">
+                        <button (click)="pagar(contas)" style="margin-top: 10px"
+                          class="btn btn-success btn-block">EFETUAR PAGAMENTO</button>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                  <p-confirmDialog #cd header="Aviso!" icon="pi pi-exclamation-triangle">
+                    <p-footer>
+                      <button type="button" pButton icon="pi pi-check" label="Entendi" (click)="cd.accept()"></button>
+                      <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                        (click)="cd.reject()"></button>
+                    </p-footer>
+                  </p-confirmDialog>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Main row -->
+      <div class="row">
+        <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+        </ngx-loading>
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+</div>
+<!-- ./wrapper -->

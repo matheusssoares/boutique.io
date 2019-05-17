@@ -1,0 +1,88 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Produtos
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Produtos</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <button style="margin: 16px;" (click)="add()" class="btn btn-primary">
+              Adicionar Novo Produto
+            </button>
+            <p-fieldset legend="Lista de Produtos" [toggleable]="true">
+              <p-table #dt [columns]="cols" [value]="listUsers" [paginator]="true" [rows]="10"
+                [resizableColumns]="true">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="45" placeholder="  Pesquisar..."
+                      (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" [style.width]="col.width" ttResizableColumn>
+                      {{col.header}}
+                    </th>
+                    <th style="width: 115px;">Ações</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                  <tr [pSelectableRow]="user">
+                    <td>{{ user.barcode }}</td>
+                    <td>{{ user.nome }}</td>
+                    <td>{{ user.categoria }}</td>
+                    <td>{{ user.qtde_atual }}</td>
+                    <td style="width: 150px;">{{ user.vista | currency:'BRL':true }}</td>
+                    <td *ngIf="user.status"><span class="label label-success">ATIVO</span></td>
+                    <td *ngIf="!user.status"><span class="label label-danger">INATIVO</span></td>
+                    <td style="width: 115px;">
+                      <button (click)="update(user)" class="btn btn-success"><i class="fa fa-edit"></i></button>
+                      &nbsp;
+                      <button (click)="delete(user)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                  Produtos cadastrados {{listUsers?.length}}.
+                </ng-template>
+              </p-table>
+            </p-fieldset>
+
+            <p-confirmDialog #cd header="Exclusão de Produto" icon="pi pi-exclamation-triangle">
+              <p-footer>
+                <button type="button" pButton icon="pi pi-check" label="Confirmar" (click)="cd.accept()"></button>
+                <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Cancelar"
+                  (click)="cd.reject()"></button>
+              </p-footer>
+            </p-confirmDialog>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

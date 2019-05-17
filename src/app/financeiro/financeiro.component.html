@@ -1,0 +1,179 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Módulo - Financeiro
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Módulo - Financeiro</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Info boxes -->
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>Fluxo de Caixa</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>Mov. de Caixa</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a [routerLink]="['/admin/financeiro/mov-caixa']" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-orange">
+            <div class="inner">
+              <h3>Contas a Pagar</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a [routerLink]="['/admin/financeiro/contas-a-pagar']" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-roxo">
+            <div class="inner">
+              <h3>Contas Pagas</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a [routerLink]="['/admin/financeiro/contas-pagas']" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-vermelho">
+            <div class="inner">
+              <h3>Contas a Receber</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-verde">
+            <div class="inner">
+              <h3>Contas Recebidas</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-rosa">
+            <div class="inner">
+              <h3>Caixas</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a [routerLink]="['/admin/financeiro/caixas']" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>PDV</h3>
+
+              <p>Módulo Financeiro</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <a [routerLink]="['/admin/financeiro/pdv']" class="small-box-footer">
+              Visualizar <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="small-box bg-preto">
+              <div class="inner">
+                <h3>Orçamentos</h3>
+  
+                <p>Módulo Financeiro</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-dollar"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                Visualizar <i class="fa fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Main row -->
+      <div class="row">
+
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+</div>
+<!-- ./wrapper -->

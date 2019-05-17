@@ -1,0 +1,101 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Atualizar Clientes
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Atualizar Clientes</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-header">
+            <p-fieldset legend="Atualizar Dados do Cliente" [toggleable]="true">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Nome Completo</label>
+                  <input type="text" class="form-control" [(ngModel)]="clientes.nome">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Email do Cliente</label>
+                  <input type="email" class="form-control" [(ngModel)]="clientes.email">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label>CPF</label>
+                  <input type="text" class="form-control" nccCpfCnpjMask [(ngModel)]="clientes.cpf">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label>Sexo</label>
+                  <select class="form-control" [(ngModel)]="clientes.sexo">
+                    <option value="Feminino">Feminino</option>
+                    <option value="Masculino">Masculino</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label>Contato do Cliente</label>
+                  <input type="text" class="form-control" mask="(00)00000-0000" [(ngModel)]="clientes.contato">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label>Data de Nascimento</label>
+                  <p-calendar [(ngModel)]="clientes.data_nascimento" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="1940:2030" dateFormat="dd/mm/yy" [locale]="en"></p-calendar>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label>Endereço</label>
+                  <input type="text" class="form-control" [(ngModel)]="clientes.rua">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>Cidade</label>
+                  <input type="text" readonly class="form-control" [(ngModel)]="clientes.cidade">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>Bairro</label>
+                  <select class="form-control" [(ngModel)]="clientes.bairro">
+                    <option value="Centro">Centro</option>
+                    <option value="Cocal">Cocal</option>
+                    <option value="Miguelândia">Miguelândia</option>
+                    <option value="Novo">Novo</option>
+                    <option value="Palha">Palha</option>
+                    <option value="Pirí">Pirí</option>
+                    <option value="São José">São José</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2">
+                  <label>Num</label>
+                  <input type="number" class="form-control" [(ngModel)]="clientes.num">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>Lim. Déb.</label>
+                  <input type="text" class="form-control" currencyMask [(ngModel)]="clientes.limite_fiado" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+              </div>
+              <button (click)="submited(clientes)" class="btn btn-primary btn-lg btn-block">Atualizar Cliente</button>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->

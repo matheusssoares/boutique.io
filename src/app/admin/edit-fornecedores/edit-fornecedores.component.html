@@ -1,0 +1,62 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Fornecedores
+        <small>Versão 2.0</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a [routerLink]="['/admin/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Fornecedores</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="box box-primary">
+            <p-fieldset legend="Atualizar Fornecedor" [toggleable]="true">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Nome do Fornecedor</label>
+                  <input type="text" class="form-control" [(ngModel)]="fornecedor.nome">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Email do Fornecedor</label>
+                  <input type="email" class="form-control" [(ngModel)]="fornecedor.email">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>CPF/CNPJ</label>
+                  <input type="text" class="form-control" nccCpfCnpjMask [(ngModel)]="fornecedor.cnpj">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Contato do Fornecedor</label>
+                  <input type="text" class="form-control" mask="(00)00000-0000" [(ngModel)]="fornecedor.contato">
+                </div>
+              </div>
+              <button (click)="submited(fornecedor)" class="btn btn-primary btn-lg btn-block">Atualizar Fornecedor</button>
+            </p-fieldset>
+            <br>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <app-footer></app-footer>
+  <!-- /.login-box -->
+
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<!-- ./wrapper -->
