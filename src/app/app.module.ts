@@ -59,6 +59,8 @@ import { MovCaixaComponent } from './mov-caixa/mov-caixa.component';
 import { ContasPagasComponent } from './contas-pagas/contas-pagas.component';
 import { PdvComponent } from './pdv/pdv.component';
 import { CaixasComponent } from './caixas/caixas.component';
+import { DataViewModule } from 'primeng/dataview';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [
@@ -118,7 +120,9 @@ import { CaixasComponent } from './caixas/caixas.component';
     FileUploadModule,
     HttpClientModule,
     AutoCompleteModule,
-    UiSwitchModule
+    UiSwitchModule,
+    DataViewModule,
+    DynamicDialogModule,
   ],
   providers: [AuthService, { provide: FirestoreSettingsToken, useValue: {} }, {provide: LOCALE_ID, useValue: 'pt-BR'} ],
   bootstrap: [AppComponent]

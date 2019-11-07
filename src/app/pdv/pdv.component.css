@@ -1,0 +1,27 @@
+.content-wrapper{
+    min-height: 120vh;
+}
+.bg-azul-escuro{
+    background: #357CA5;
+}
+.input-lg {
+    height: 50px;
+}
+.foto-produto {
+    width: 170px;
+    height: 170px;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.img_success{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 150px;
+    height: auto;
+}

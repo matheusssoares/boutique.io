@@ -1,3 +1,500 @@
-<p>
-  pdv works!
-</p>
+<div class="wrapper">
+  <app-header></app-header>
+  <p-dialog header="Entrar no Caixa" [(visible)]="display" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <select class="form-control" (change)="alterou($event.target.value)">
+      <option disabled>Selecione</option>
+      <option *ngFor="let i of caixa" value="{{ i.key }}"> {{ i.nome }}</option>
+    </select>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Entrar"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="fechar()" label="Fechar PDV"
+        class="ui-button-danger"></button>
+    </p-footer>
+  </p-dialog>
+  <p-dialog header="Abertura de Caixa" [(visible)]="display2" [modal]="true" [responsive]="true"
+    [style]="{width: '600px', minWidth: '600px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><i class="icon fa fa-info"></i> Atenção!</h4>
+      Este CAIXA está fechado. Para iniciar as vendas é necessário abri-lo.
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-4">
+          <label for="operador">Operador</label>
+          <input id="operador" [(ngModel)]="pdv.operador" type="text" readonly class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="caixa">Caixa</label>
+          <input id="caixa" [(ngModel)]="pdv.caixa" type="text" readonly class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="data_abertura">Data de Abertura</label>
+          <input id="data_abertura" [(ngModel)]="pdv.data_abertura" type="text" readonly class="form-control">
+        </div>
+      </div>
+      <div style="margin-top: 16px" class="row">
+        <div class="col-md-4">
+          <label for="valor_abertura">Valor de Abertura</label>
+          <input [(ngModel)]="pdv.valor_abertura" type="text" class="form-control" currencyMask
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+        </div>
+        <div class="col-md-4">
+          <label for="conta">Conta</label>
+          <select class="form-control">
+            <option disabled>Conta Padrão</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label>Valor em Caixa</label>
+          <input [(ngModel)]="pdv.valor_caixa" type="text" class="form-control" currencyMask
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 16px">
+        <div class="col-md-12">
+          <label for="obs">Observação</label>
+          <textarea [(ngModel)]="pdv.obs" class="form-control" rows="3"
+            placeholder="Adicionar observações..."></textarea>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="abrir(pdv)" label="Abrir Caixa"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="fechar()" label="Fechar PDV"
+        class="ui-button-danger"></button>
+    </p-footer>
+  </p-dialog>
+  <!--BOX DE VENDAS-->
+  <div class="row bg-azul-escuro">
+    <div class="col-md-12">
+      <div class="content-box">
+        <marquee behavior=scroll>
+          <h1 style="color: #FFF">Pedido de Vendas - CAIXA DISPONÍVEL</h1>
+        </marquee>
+      </div>
+    </div>
+  </div>
+  <div style="background: #FFF" class="row">
+    <div class="col-md-12">
+      <div class="box box-warning direct-chat direct-chat-warning"></div>
+      <div style="margin-bottom: 16px;" class="row">
+        <button style="float: right; margin-right: 26px;" class="btn btn-danger" (click)="fechar()">SAIR DO PDV</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="container">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>INFORME O NOME OU O CÓDIGO DE BARRAS DO PRODUTO</label>
+                    <input autocomplete="off" id="pesq_nb" [(ngModel)]="pes" type="text" class="form-control input-lg"
+                      (keyup.enter)="pesquisar($event)">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>&nbsp;</label>
+                    <img class="foto-produto" [src]="produto?.foto || '../../assets/img/semfoto.jpg'">
+                  </div>
+
+                  <div style="margin-top: 16px" class="col-md-9">
+                    <div class="form-horizontal">
+                      <div class="box-body">
+                        <div class="form-group">
+                          <label class="col-sm-4 control-label">CÓDIGO DE BARRAS</label>
+                          <div class="col-sm-8">
+                            <input id="codebar" type="text" class="form-control input-lg" [(ngModel)]="produto.barcode">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-4 control-label">NOME DO PRODUTO</label>
+                          <div class="col-sm-8">
+                            <input id="nome" type="text" class="form-control input-lg" [(ngModel)]="produto.nome">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-4 control-label">QUANTIDADE</label>
+
+                          <div class="col-sm-8">
+                            <input id="qtde" type="number" class="form-control input-lg" min="1" [(ngModel)]="qtde">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <button (click)="add_cart(produto, qtde)" class="btn btn-primary btn-block btn-lg">ADICIONAR
+                            PRODUTO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="box box-success direct-chat direct-chat-success">
+                <div class="box-header with-border">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>SELECIONAR CLIENTE</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" [(ngModel)]="cliente" readonly>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-success btn-flat" (click)="select_cliente()"><i
+                            class="fa fa-search"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="produtos.length > 0" class="row">
+                    <div class="col-md-2">
+                      <b>Qtde</b>
+                    </div>
+                    <div class="col-md-5">
+                      <b>Produto</b>
+                    </div>
+                    <div class="col-md-3">
+                      <b>Preço Un.</b>
+                    </div>
+                    <div class="col-md-2">
+                      <b>Ação</b>
+                    </div>
+                  </div>
+
+                  <div *ngFor="let item of produtos" class="row">
+                    <div class="col-md-2">
+                      <p class="text-center">{{ item.item.qtde }}</p>
+                    </div>
+                    <div class="col-md-5">
+                      <p class="text-truncate">{{ item.item.nome }}</p>
+                    </div>
+                    <div class="col-md-3">
+                      <p>{{ item.item.prazo | currency:'BRL':true}}</p>
+                    </div>
+                    <div class="col-md-2">
+                      <p style="cursor: pointer" (click)="del(item)" class="text-center"><a class="text-red"> <i
+                            class="fa fa-trash"></i> </a></p>
+                    </div>
+                  </div>
+
+                  <div *ngIf="produtos.length == 0" class="row">
+                    <h3 class="text-center">Não há itens adicionados...</h3>
+                    <h1 class="text-center">
+                      <i style="font-size: 80px;" class="fa fa-opencart" aria-hidden="true"></i>
+                    </h1>
+                  </div>
+
+                  <div *ngIf="produtos.length > 0" class="row">
+                    <div class="col-md-12">
+                      <h4>TOTAL DO PEDIDO</h4>
+                    </div>
+                    <div class="col-md-12">
+                      <div style="padding: 5px;" class="bg-black">
+                        <h4 class="text-center">{{ total | currency:'BRL':true }}</h4>
+                      </div>
+                    </div>
+                    <div style="margin-top: 16px;" class="col-md-6">
+                      <button class="btn btn-lg btn-block btn-warning">AGUARDAR</button>
+                    </div>
+                    <div style="margin-top: 16px;" class="col-md-6">
+                      <button (click)="cancelar()" class="btn btn-lg btn-block btn-danger">CANCELAR</button>
+                    </div>
+                    <div style="margin-top: 16px; margin-bottom: 16px" class="col-md-12">
+                      <button (click)="finalizar()" class="btn btn-lg btn-success btn-block">FINALIZAR VENDA</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
+  </ngx-loading>
+</div>
+<button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<button id="openModalButton2" [hidden]="true" data-toggle="modal" data-target="#myModal2">Open Modal2</button>
+<button id="openModalButton3" [hidden]="true" data-toggle="modal" data-target="#myModal3">Open Modal3</button>
+<button id="openModalButton4" [hidden]="true" data-toggle="modal" data-target="#myModal4">Open Modal4</button>
+<button id="openModalButton5" [hidden]="true" data-toggle="modal" data-target="#myModal5">Open Modal5</button>
+<!--FIM BOX DE VENDAS-->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Lista de Produtos</h4>
+      </div>
+      <div class="modal-body">
+        <!--INÍCIO TABELA DE PRODUTOS-->
+        <p-table #dt [columns]="cols" [value]="listUsers" [paginator]="true" [rows]="10" [resizableColumns]="true">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input [(ngModel)]="pes2" type="text" pInputText size="45" placeholder="  Pesquisar..."
+                (onChange)="dt.filter($event.value, 'contains')"
+                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" [style.width]="col.width" ttResizableColumn>
+                {{col.header}}
+              </th>
+              <th style="width: 130px;">Ações</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user>
+            <tr [pSelectableRow]="user">
+              <td>{{ user.barcode }}</td>
+              <td>{{ user.nome }}</td>
+              <td>{{ user.categoria }}</td>
+              <td>{{ user.qtde_atual }}</td>
+              <td style="width: 150px;">{{ user.vista | currency:'BRL':true }}</td>
+              <td style="width: 150px;">{{ user.prazo | currency:'BRL':true }}</td>
+              <td style="width: 130px;">
+                <button (click)="select(user)" class="btn btn-primary" data-dismiss="modal">SELECIONAR</button>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+        <!--FIM TABELA DE PRODUTOS-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="myModal2">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Lista de Clientes</h4>
+      </div>
+      <div class="modal-body">
+        <!--INÍCIO TABELA DE CLIENTES-->
+        <p-table #dt2 [columns]="cols2" [value]="listUsers2" [paginator]="true" [rows]="10" [resizableColumns]="true">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="45" placeholder="  Pesquisar..."
+                (input)="dt2.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns2>
+            <tr>
+              <th *ngFor="let col2 of columns2" [style.width]="col2.width" ttResizableColumn>
+                {{col2.header}}
+              </th>
+              <th style="width: 130px;">Ações</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user2>
+            <tr [pSelectableRow]="user2">
+              <td>{{ user2.nome }}</td>
+              <td>{{ user2.email }}</td>
+              <td>{{ user2.cpf }}</td>
+              <td style="width: 170px;">{{ user2.limite_fiado | currency:'BRL':true }}</td>
+              <td style="width: 130px;">
+                <button (click)="select_cliente2(user2)" class="btn btn-info" data-dismiss="modal">SELECIONAR</button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!--FIM TABELA DE PRODUTOS-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!--MODAL FECHAR PEDIDO-->
+<div class="modal fade" id="myModal3">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Finalizar Vendas</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <p-fieldset legend="Resumo de Pagamento" [toggleable]="true">
+              <div *ngIf="!form_pg" class="row">
+                <div class="col-md-12">
+                  <label>FORMA DE PAGAMENTO</label>
+                  <select class="form-control input-lg" (change)="alter_fp($event.target.value)"
+                    [(ngModel)]="vendas_fin.forma_pg">
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Crediário da Loja">Crediário da Loja</option>
+                    <option value="Dinheiro à Vista">Dinheiro à Vista</option>
+                  </select>
+                </div>
+              </div>
+              <div *ngIf="form_pg" class="row">
+                <div class="col-md-4">
+                  <label>FORMA DE PAGTO</label>
+                  <select class="form-control input-lg" (change)="alter_fp($event.target.value)"
+                    [(ngModel)]="vendas_fin.forma_pg">
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Crediário da Loja">Crediário da Loja</option>
+                    <option value="Dinheiro à Vista">Dinheiro à Vista</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label>PAGAR ENTRADA</label>
+                  <select class="form-control input-lg" (change)="entrada_fp($event.target.value)"
+                    [(ngModel)]="vendas_fin.entrada">
+                    <option value="SIM">SIM</option>
+                    <option value="NÃO">NÃO</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label>ENTRADA DE</label>
+                  <input id="entrada_value" type="text" class="form-control input-lg" (ngModelChange)="entrada($event)"
+                    [(ngModel)]="vendas_fin.valor_entrada" currencyMask
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+              </div>
+
+              <div *ngIf="form_pg" style="margin-top: 16px" class="row">
+                <div class="col-md-4">
+                  <label>N° DE PARCELAS</label>
+                  <select class="form-control input-lg" [(ngModel)]="vendas_fin.qtde_parc">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label>APLICAR ACRÉSCIMOS</label>
+                  <input type="text" class="form-control input-lg" (ngModelChange)="app_acresc_din($event)"
+                    [(ngModel)]="vendas_fin.acresc_din" currencyMask
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+                <div class="col-md-4">
+                  <label>APLICAR DESCONTOS</label>
+                  <input type="text" class="form-control input-lg" (ngModelChange)="app_desc_din($event)"
+                    [(ngModel)]="vendas_fin.desc_din" currencyMask
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+              </div>
+              <div *ngIf="!form_pg" style="margin-top: 16px;" class="row">
+                <div class="col-md-6">
+                  <label>APLICAR ACRÉSCIMOS</label>
+                  <input type="text" class="form-control input-lg" (ngModelChange)="app_acresc_din($event)"
+                    [(ngModel)]="vendas_fin.acresc_din" currencyMask
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+                <div class="col-md-6">
+                  <label>APLICAR DESCONTOS</label>
+                  <input type="text" class="form-control input-lg" (ngModelChange)="app_desc_din($event)"
+                    [(ngModel)]="vendas_fin.desc_din" currencyMask
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+              </div>
+              <div style="margin-top: 16px;" class="row">
+                <div class="col-md-4">
+                  <label>TOTAL DO PEDIDO</label>
+                  <input type="text" readonly class="form-control input-lg" currencyMask [(ngModel)]="total"
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+                <div class="col-md-4">
+                  <label>TOTAL A PAGAR</label>
+                  <input type="text" readonly class="form-control input-lg" currencyMask
+                    [(ngModel)]="vendas_fin.valor_final" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+                <div class="col-md-4">
+                  <label>TOTAL PAGO</label>
+                  <input type="text" class="form-control input-lg" currencyMask [(ngModel)]="vendas_fin.total_pago"
+                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                </div>
+              </div>
+              <div style="margin-top: 16px" class="row">
+                <div class="col-md-12">
+                  <label>OBSERVAÇÕES</label>
+                  <textarea class="form-control" [(ngModel)]="vendas_fin.obs"></textarea>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="finalizar_pedido()" class="btn btn-primary btn-lg"
+          data-dismiss="modal">CONFIRMAR</button>
+        <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">CANCELAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--FINAL MODAL FECHAR PEDIDO-->
+<!--MODAL VENDA COM SUCESSO SEM TROCO-->
+<div class="modal fade" id="myModal4">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+
+        <h3 class="text-center">VENDA REALIZADA COM SUCESSO!</h3>
+        <div class="center">
+          <img src="../../assets/img/icon-success.png" class="img_success">
+        </div>
+
+        <div style="margin-top: 16px;" class="row">
+          <div class="text-center">
+            <button class="btn btn-success btn-lg">INICIAR NOVA VENDA</button>
+            &nbsp;
+            <button class="btn bg-black btn-lg">IMPRIMIR CUPOM</button>
+            &nbsp;
+            <button class="btn btn-warning btn-lg">EMITIR NFC</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
