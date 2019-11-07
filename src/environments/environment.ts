@@ -5,13 +5,14 @@
 export const environment = {
   production: false
 };
+/*Coloque suas configurações do Firebase Aqui*/
 export const firebase_config = {
-  apiKey: "AIzaSyB0wGyn8hQfYyyK1n8WyXWdMxxCJti5TbQ",
-  authDomain: "boutique-mode-chic.firebaseapp.com",
-  databaseURL: "https://boutique-mode-chic.firebaseio.com",
-  projectId: "boutique-mode-chic",
-  storageBucket: "boutique-mode-chic.appspot.com",
-  messagingSenderId: "640832967632"
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: ""
 }
 
 /*
